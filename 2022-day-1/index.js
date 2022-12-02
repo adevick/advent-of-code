@@ -7,8 +7,8 @@ function syncReadFile(filename) {
 }
 
 console.log('hello world');
-console.log('Reading input.txt');
-const input = syncReadFile('./input.txt');
+console.log('Reading elvesCalories.txt');
+const input = syncReadFile('./elvesCalories.txt');
 let elevNumber = 0;
 let totalCalories = 0;
 let elves = [];
