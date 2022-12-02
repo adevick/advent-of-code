@@ -98,8 +98,6 @@ function lose(elevPlayed) {
   }
 }
 
-console.log(strategyGuide);
-
 let totalScore = 0;
 
 strategyGuide.forEach(game => {
