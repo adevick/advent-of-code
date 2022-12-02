@@ -1,5 +1,3 @@
-console.log('hello world');
-
 const { readFileSync, promises: fsPromises } = require('fs');
 
 function syncReadFile(filename) {
@@ -110,7 +108,7 @@ strategyGuide.forEach(game => {
     const iShould = whatShouldIDo(iPlayed);
     iPlayedValue = getMyNewStrategy(elvesValue, iShould)
   }
-  
+
   const winningScore = didIWin(elvesValue, iPlayedValue);
   totalScore += (winningScore + iPlayedValue);
 
