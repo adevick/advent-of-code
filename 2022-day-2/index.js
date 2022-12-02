@@ -50,16 +50,72 @@ function didIWin(elevPlayed, iPlayed) {
   }
 }
 
+function whatShouldIDo(value) {
+  if (value === 'X') {
+    return 'lose';
+  }
+  if (value === 'Y') {
+    return 'draw';
+  }
+  if (value === 'Z') {
+    return 'win';
+  }
+};
+
+function getMyNewStrategy(elevPlayed, iShould) {
+  if (iShould === 'lose') {
+    return lose(elevPlayed);
+  }
+  if (iShould === 'draw') {
+    return elevPlayed;
+  }
+  if (iShould === 'win') {
+    return win(elevPlayed);
+  }
+}
+
+function win(elevPlayed) {
+  if (elevPlayed === scoreOfShapes.Rock) {
+    return scoreOfShapes.Paper;
+  }
+  if (elevPlayed === scoreOfShapes.Paper) {
+    return scoreOfShapes.Scissors;
+  }
+  if (elevPlayed === scoreOfShapes.Scissors) {
+    return scoreOfShapes.Rock;
+  }
+}
+
+function lose(elevPlayed) {
+  if (elevPlayed === scoreOfShapes.Rock) {
+    return scoreOfShapes.Scissors;
+  }
+  if (elevPlayed === scoreOfShapes.Paper) {
+    return scoreOfShapes.Rock;
+  }
+  if (elevPlayed === scoreOfShapes.Scissors) {
+    return scoreOfShapes.Paper;
+  }
+}
+
 console.log(strategyGuide);
+
 let totalScore = 0;
+
 strategyGuide.forEach(game => {
   const elevPlayed = game.substring(0, 1);
   const iPlayed = game.substring(2, 3);
-
+  const newStrategy = true;
   const elvesValue = whoPlayedWhat(elevPlayed);
-  const iPlayedValue = whoPlayedWhat(iPlayed);
+  let iPlayedValue = whoPlayedWhat(iPlayed);
+  if (newStrategy) {
+    const iShould = whatShouldIDo(iPlayed);
+    iPlayedValue = getMyNewStrategy(elvesValue, iShould)
+  }
+  
   const winningScore = didIWin(elvesValue, iPlayedValue);
   totalScore += (winningScore + iPlayedValue);
+
 });
 
 console.log('totalScore:', totalScore);
