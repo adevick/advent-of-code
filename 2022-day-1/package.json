@@ -1,0 +1,23 @@
+{
+  "name": "2022-day-1",
+  "version": "1.0.0",
+  "description": "2022 advnet of code challange day 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adevick/advent-of-code.git"
+  },
+  "author": "acdevick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adevick/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/adevick/advent-of-code#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
