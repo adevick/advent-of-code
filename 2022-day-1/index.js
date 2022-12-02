@@ -6,13 +6,11 @@ function syncReadFile(filename) {
   return arr;
 }
 
-console.log('hello world');
-console.log('Reading elvesCalories.txt');
-const input = syncReadFile('./elvesCalories.txt');
+const foodCalories = syncReadFile('./elvesCalories.txt');
 let elevNumber = 0;
 let totalCalories = 0;
 let elves = [];
-input.forEach(x => {
+foodCalories.forEach(x => {
   if (x !== '') {
     totalCalories += Number(x);
   } else {
@@ -24,8 +22,6 @@ input.forEach(x => {
     totalCalories = 0;
   }
 });
-
-const maxCalories = Math.max(...(elves.map((x) => x.totalCalories)));
 
 function findMaxCalories(elves) {
   return Math.max(...(elves.map((x) => x.totalCalories)));
@@ -39,5 +35,5 @@ const topElev3 = elves.find((x) => x.totalCalories === findMaxCalories(elves));
 
 const totalCaloriesOfTop3 = topElev1.totalCalories + topElev2.totalCalories + topElev3.totalCalories;
 console.log('MostCalories: ', topElev1);
-console.log('total of top 3 elves: ', totalCaloriesOfTop3);
+console.log('Total of the top 3 elves: ', totalCaloriesOfTop3);
 
