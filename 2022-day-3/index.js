@@ -104,7 +104,7 @@ rucksacks.forEach((rucksack, index) => {
     if (groupCount === 3) {
       sharedItemFound = getGroupSharedItem(elevGroup);
       const priority = getPriorityScore(sharedItemFound, priorityGuide);
-    totalScore += priority;
+      totalScore += priority;
       groupCount = 0;
       elevGroup = [];
     }
