@@ -58,7 +58,7 @@ craneMoves.forEach(move => {
 
   if (part2) {
     let cratesThatAreMoving = [];
-    for (let crate = 1; crate <= cratesToMove; crate++) {
+    for (let crate = 1; crate < cratesToMove; crate++) {
       const crateToShift = stacks[fromStack].shift();
       cratesThatAreMoving.push(crateToShift);
     }
