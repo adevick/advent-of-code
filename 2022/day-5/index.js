@@ -54,10 +54,28 @@ craneMoves.forEach(move => {
   const cratesToMove = Number(move[1]);
   const fromStack = (Number(move[3]) - 1);
   const toStack = (Number(move[5]) - 1);
+  const part2 = true;
 
-  for (let crate = 0; crate < cratesToMove; crate++) {
-    const crateToMove = stacks[fromStack].shift();
-    stacks[toStack].unshift(crateToMove);
+  if (part2) {
+    let cratesThatAreMoving = [];
+    for (let crate = 1; crate <= cratesToMove; crate++) {
+      const crateToShift = stacks[fromStack].shift();
+      cratesThatAreMoving.push(crateToShift);
+    }
+    console.log('shifted',stacks);
+    console.log('cratesToMove', cratesToMove);
+    console.log('cratesThatAreMoving',cratesThatAreMoving);
+    for (let i = cratesThatAreMoving.length - 1; i >= 0; i--) {
+      const crateToAdd = cratesThatAreMoving[i];
+      stacks[toStack].unshift(crateToAdd);
+    }
+    console.log('unShifted',stacks);
+
+  } else {
+    for (let crate = 0; crate < cratesToMove; crate++) {
+      const crateToMove = stacks[fromStack].shift();
+      stacks[toStack].unshift(crateToMove);
+    }
   }
 });
 
