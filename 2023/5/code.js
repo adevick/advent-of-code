@@ -94,27 +94,91 @@ const getValue = (seed, map) => {
   return next ?? seed;
 }
 
-// [
-//   {
-//     destinationRangeStart: '50',
-//     sourceRangeStart: '98',
-//     rangeLength: '2'
-//   },
-//   {
-//     destinationRangeStart: '52',
-//     sourceRangeStart: '50',
-//     rangeLength: '48'
-//   }
-// ],
+const seedsPart2 = [];
 
-const seedLocations = [];
-seeds.forEach(seed => {
-  let nextValue = seed;
+
+const getLocation = (seed) => {
+  nextValue = seed;
   farmProcess.forEach(map => {
     nextValue = getValue(nextValue, map);
   });
-  seedLocations.push(nextValue);
-});
+  return nextValue;
+}
 
-console.log(Math.min(...seedLocations));
+
+const getSeedLocation = (element, length) => {
+  let lowestLocation = 999999999999;
+  return new Promise((resolve, reject) => {
+    console.log('Starting seed: ', element, 'with length: ', length);
+    for (let index = 0; index < length; index++) {
+      const location = getLocation(`${element + index}`);
+      if (Number(location) < Number(lowestLocation)) {
+        console.log('next lowest: ', location);
+        lowestLocation = Number(location);
+      }
+    }
+    seedsPart2.push(lowestLocation);
+    console.log('Found Lowest: ', lowestLocation, 'Seed', element);
+    resolve();
+  });
+
+}
+
+const seedSets = [];
+for (let i = 0; i < seeds.length; i += 2) {
+  const element = Number(seeds[i]);
+  const length = Number(seeds[i + 1]);
+  seedSets.push({ element: element, length: length });
+  // const seedLoc = getSeedLocation(element, length);
+}
+
+const things = [];
+
+const process = async () => {
+  seedSets.forEach(element => {
+    const a = getSeedLocation(element.element, element.length);
+    console.log('promise added');
+    things.push(a);
+  });
+
+  return await Promise.all(...things);
+}
+
+process();
+
+// const seedLocations = [];
+// seeds.forEach(seed => {
+//   let nextValue = seed;
+//   farmProcess.forEach(map => {
+//     nextValue = getValue(nextValue, map);
+//   });
+//   seedLocations.push(nextValue);
+// });
+
+// console.log(Math.min(...seedLocations));
 // console.log(farmProcess)
+// console.log('seeds', seeds);
+
+// const seedLocations2 = [];
+// seedsPart2.forEach(seed => {
+//   let nextValue = `${seed}`;
+//   farmProcess.forEach(map => {
+//     nextValue = getValue(nextValue, map);
+//   });
+//   seedLocations2.push(nextValue);
+// });
+
+console.log('lowestLocations: ', seedsPart2);
+console.log('lowest: ', Math.min(...seedsPart2));
+// console.log(Math.min(...seedLocations2));
+
+
+//107262262
+//44334822
+//895525633
+//88490186
+//15290097
+//121383181
+//492876977
+//238619228
+//90823162
