@@ -24,6 +24,22 @@ const cardValues = [
   { card: '2', value: 1 }
 ]
 
+const cardValuesPart2 = [
+  { card: 'A', value: 13 },
+  { card: 'K', value: 12 },
+  { card: 'Q', value: 11 },
+  { card: 'J', value: 0 },
+  { card: 'T', value: 9 },
+  { card: '9', value: 8 },
+  { card: '8', value: 7 },
+  { card: '7', value: 6 },
+  { card: '6', value: 5 },
+  { card: '5', value: 4 },
+  { card: '4', value: 3 },
+  { card: '3', value: 2 },
+  { card: '2', value: 1 }
+]
+
 const handTypes = {
   FiveOfAKind: 7,
   FourOfAKind: 6,
@@ -31,19 +47,29 @@ const handTypes = {
   ThreeOfAKind: 4,
   TwoPair: 3,
   OnePair: 2,
-  HighCar: 1
+  HighCard: 1
+}
+
+const lookUpCardByValue = (value) => {
+  return cardValues.find((x) => x.value === value);
 }
 
 const assignType = (hand) => {
   const setTest = new Set(hand.hand);
   if (setTest.size === 5) {
-    hand.type = handTypes.HighCar
-    return hand;
+    if (hand.hand.includes('J')) {
+      hand.type = handTypes.OnePair
+      return hand;
+    } else {
+      hand.type = handTypes.HighCard;
+      return hand;
+    }
   }
   if (setTest.size === 1) {
     hand.type = handTypes.FiveOfAKind
     return hand;
   }
+  
   let charCount = {};
   let results = [];
   for (let i = 0; i < hand.hand.length; i++) {
@@ -56,38 +82,65 @@ const assignType = (hand) => {
       results.push({ char: char, count: charCount[char] });
     }
   }
+  
   if (results.length === 1) {
-    switch (results[0].count) {
-      case 2:
-        hand.type = handTypes.OnePair
-        return hand;
-      case 3:
-        hand.type = handTypes.ThreeOfAKind
-        return hand;
-      case 4:
-        hand.type = handTypes.FourOfAKind
-        return hand;
+    if (results[0].char === 'J' || hand.hand.includes('J')) {
+      switch (results[0].count) {
+        case 2:
+          hand.type = handTypes.ThreeOfAKind
+          return hand;
+        case 3:
+          hand.type = handTypes.FourOfAKind
+          return hand;
+        case 4:
+          hand.type = handTypes.FiveOfAKind
+          return hand;
+      }
+    } else {
+      switch (results[0].count) {
+        case 2:
+          hand.type = handTypes.OnePair
+          return hand;
+        case 3:
+          hand.type = handTypes.ThreeOfAKind
+          return hand;
+        case 4:
+          hand.type = handTypes.FourOfAKind
+          return hand;
+      }
     }
   }
 
   if (results.length === 2) {
-    if ((results[0].count === 2 && results[1].count === 3) ||
-      results[1].count === 2 && results[0].count === 3) {
+    if (results[0].char === 'J' || results[1].char === 'J') {
+      if ((results[0].count === 2 && results[1].count === 3) ||
+        results[0].count === 3 && results[1].count === 2) {
+        hand.type = handTypes.FiveOfAKind;
+        return hand;
+      }
+    } else if ((results[0].count === 2 && results[1].count === 3) ||
+      results[0].count === 3 && results[1].count === 2) {
       hand.type = handTypes.FullHouse
       return hand;
     }
     if (results[0].count === 2 && results[1].count === 2) {
-      hand.type = handTypes.TwoPair
-      return hand;
+      if (results[0].char === 'J' || results[1].char === 'J') {
+        hand.type = handTypes.FourOfAKind
+        return hand;
+      } else if (hand.hand.includes('J')) {
+        hand.type = handTypes.FullHouse;
+        return hand;
+      } else {
+        hand.type = handTypes.TwoPair;
+      }
     }
-    hand.type = handTypes.OnePair
-    return hand;
   }
 };
 
 hands.forEach(hand => {
   hand = assignType(hand);
 });
+console.log('HANDS ARE NOW: ', hands);
 
 hands.sort((a, b) => a.type - b.type)
 console.log('Hands Assigned and Sorted: ', hands.filter((x) => x.type === 1).length);
@@ -102,6 +155,10 @@ const lookUpCardValue = (card) => {
   return cardValues.find((x) => x.card === card).value;
 }
 
+const lookUpCardValuePart2 = (card) => {
+  return cardValuesPart2.find((x) => x.card === card).value;
+}
+
 const rankedCards = [];
 let rank = 1;
 for (let i = 1; i <= 7; i++) {
@@ -110,7 +167,7 @@ for (let i = 1; i <= 7; i++) {
   let cardDataPerType = [];
   types.forEach(hand => {
     for (let index = 0; index < 5; index++) {
-      const card = lookUpCardValue(hand.hand[index]);
+      const card = lookUpCardValuePart2(hand.hand[index]);
       cardDataPerType.push({ id: hand.hand, position: index, value: card, bid: hand.bid })
     }
   });
