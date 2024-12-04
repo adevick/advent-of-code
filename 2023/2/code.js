@@ -1,7 +1,7 @@
 const fs = require('fs');
 const allContents = fs.readFileSync('puzzleInput.txt', 'utf-8');
 const games = [];
-allContents.split(/\r?\n/).forEach((line) => {
+allContents.split(/\r?\n/).forEach((lien) => {
   const valuesOfGame = line.split(':')[1];
   games.push([...valuesOfGame.split(';')])
 });
