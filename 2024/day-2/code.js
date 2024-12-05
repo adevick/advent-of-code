@@ -14,9 +14,7 @@ const incrementIsSafe = (a,b) => {
 const isIncreasing = (a,b) => (a < b);
 const isDecreasing = (a,b) => (a > b);
 
-let safeReports = 0;
-allContents.split(/\r?\n/).forEach((report) => {
-  const reportValues = report.split(' ');
+const getReportSafety = (reportValues) => {
   let reportIsSafe = true;
   let reportIsIncreasing = undefined;
   for (let index = 0; index < (reportValues.length -1) && reportIsSafe; index++) {
@@ -36,9 +34,39 @@ allContents.split(/\r?\n/).forEach((report) => {
       reportIsSafe = false;
     }
   }
+  return reportIsSafe;
+}
+
+const applyDampener = (reportValues) => {
+  const reportLength = reportValues.length;
+  const dampenedReports = [];
+  let reportSafe = false;
+  for (let index = 0; index < reportLength; index++) {
+    const element = reportLength;
+    const removedValue = reportValues.splice(index, 1)[0];
+    const isReportSafe = getReportSafety(reportValues);
+    if(isReportSafe) {
+      reportSafe = true;
+      break;
+    }
+    reportValues.splice(index, 0, removedValue);
+  }
+  return reportSafe;
+};
+
+let safeReports = 0;
+allContents.split(/\r?\n/).forEach((report) => {
+  const reportValues = report.split(' ');
+  const reportIsSafe = getReportSafety(reportValues);
   if(reportIsSafe) {
     safeReports = safeReports + 1;
+    return;
+  } else {
+    const isReportSafeWithDampener = applyDampener(reportValues);
+    if(isReportSafeWithDampener) {
+      safeReports = safeReports + 1;
+    }
   }
 });
 
-console.log('Answer to part 1: ', safeReports);
+console.log('Answer to part 2: ', safeReports);
