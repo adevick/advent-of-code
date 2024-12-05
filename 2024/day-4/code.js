@@ -50,6 +50,24 @@ const searchForWord = (lines,x,y) => {
   }
 }
 
+const searchForXMas = (lines,x,y) => {
+  if(lines[x][y] === 'A') {
+    let count = 0;
+    let upLeft = '';
+    let upRight = '';
+    let downLeft = '';
+    let downRight = '';
+    if(lines[x+1] && lines[x-1]) {
+      crossA = `${lines[x-1][y-1]}${lines[x][y]}${lines[x+1][y+1]}` ?? '';
+      crossB = `${lines[x+1][y-1]}${lines[x][y]}${lines[x-1][y+1]}` ?? '';
+    }
+    if((crossA.includes('MAS') || crossA.includes('SAM')) && (crossB.includes('MAS') || crossB.includes('SAM'))) {
+      count = count + 1;
+    }
+    return count;
+  }
+}
+
 let total = 0;
 for (let x = 0; x < lines.length; x++) {
   for (let y = 0; y < lines[x].length; y++) {
@@ -59,6 +77,19 @@ for (let x = 0; x < lines.length; x++) {
     }
   }
 }
-
+let partTwoTotal = 0;
+for (let x = 0; x < lines.length; x++) {
+  for (let y = 0; y < lines[x].length; y++) {
+    if(x === 0 || x === maxHeightIndex || y === 0 || y === maxWidthIndex) {
+      continue;
+    }
+    // console.log(x,y);
+    const result = searchForXMas(lines,x,y);
+    if(result) {
+      partTwoTotal = partTwoTotal + result;
+    }
+  }
+}
 
 console.log('Part 1: ', total);
+console.log('Part 2: ', partTwoTotal);
